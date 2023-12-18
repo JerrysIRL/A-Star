@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PathFinding : MonoBehaviour
@@ -16,22 +14,14 @@ public class PathFinding : MonoBehaviour
 
         while (openList.Count > 0)
         {
-            //Debug.Log(currentNode);
-
             openList = openList.OrderBy(node => node.fCost).ToList();
             var currentNode = openList[0];
-            // for (int i = 0; i < openList.Count; i++)
-            // {
-            //     if (openList[i].fCost > currentNode.fCost || openList[i].fCost == currentNode.fCost && openList[i].hCost > currentNode.hCost)
-            //         currentNode = openList[i];
-            // }
-
+            
             openList.Remove(currentNode);
             closedList.Add(currentNode);
 
             if (currentNode == finish)
             {
-                Debug.Log("found path");
                 return ConstructPath(currentNode);
             }
 
@@ -45,13 +35,11 @@ public class PathFinding : MonoBehaviour
                 n.gCost = currentNode.gCost + CalculateDistance(n.Position, currentNode.Position);
                 n.hCost = CalculateDistance(n.Position, finish.Position);
                 n.fCost = n.gCost + n.hCost;
-
-
+                
                 if (openList.Contains(n))
                 {
                     continue;
                 }
-
                 openList.Add(n);
             }
         }
@@ -63,7 +51,8 @@ public class PathFinding : MonoBehaviour
     {
         List<Node> path = new List<Node>();
         var current = input;
-        while (current != null)
+        while (current != null
+               || path.Count >= gridManager.Nodes.Count * gridManager.Nodes.Count)
         {
             path.Add(current);
             current = current.parent;
@@ -75,8 +64,7 @@ public class PathFinding : MonoBehaviour
         {
             pointsList.Add(new Vector3(node.Position.x, node.Position.y, -0.1f));
         }
-
-
+        
         return pointsList;
     }
 
@@ -97,15 +85,6 @@ public class PathFinding : MonoBehaviour
         }
 
         return temp;
-    }
-
-    private float CalculateHeuristic((int x, int y) point1, (int x, int y) point2)
-    {
-        int dx = point2.x - point1.x;
-        int dy = point2.y - point1.y;
-
-        // Use Mathf.RoundToInt to ensure integer result
-        return Mathf.Sqrt(dx * dx + dy * dy);
     }
     
     float CalculateDistance((int x,int y) start , (int x, int y) end ) => Vector2Int.Distance(new Vector2Int(start.x, start.y), new Vector2Int(end.x, end.y));
