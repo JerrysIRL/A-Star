@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class GridManager : MonoBehaviour
 {
@@ -32,7 +31,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    Node GetNodeAtPosition(int x, int y)
+    public Node GetNodeAtPosition(int x, int y)
     {
         return Nodes.SingleOrDefault(n => n.Value.x == x && n.Value.y == y).Key;
     }
