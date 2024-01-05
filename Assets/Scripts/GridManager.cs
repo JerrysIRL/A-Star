@@ -8,7 +8,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] private float width, height;
     [SerializeField] private Node nodePrefab;
 
-    public Dictionary<Node, (int x, int y)> Nodes { get; } = new Dictionary<Node, (int, int)>();
+    public Dictionary<Node, Vector3> Nodes { get; } = new Dictionary<Node, Vector3>();
 
 
     private void Awake()
@@ -23,16 +23,19 @@ public class GridManager : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                var node = Instantiate(nodePrefab, new Vector3(x,0, y), Quaternion.identity, transform);
-                node.Position = (x, y);
+                var pos = new Vector3(x, 0, y);
+                var node = Instantiate(nodePrefab, pos, Quaternion.identity, transform);
+                node.Position = pos;
                 node.name = $"({x},{y})";
-                Nodes.Add(node, (x, y));
+                Nodes.Add(node, pos);
             }
         }
     }
 
-    public Node GetNodeAtPosition(int x, int y)
+    public Node GetNodeAtPosition(Vector3 pos)
     {
-        return Nodes.SingleOrDefault(n => n.Value.x == x && n.Value.y == y).Key;
+        float tolerance = 0.001f;
+
+        return Nodes.SingleOrDefault(n => Vector3.Distance(n.Value, pos) < tolerance).Key;
     }
 }

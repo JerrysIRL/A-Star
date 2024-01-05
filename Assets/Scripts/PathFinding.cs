@@ -16,7 +16,7 @@ public class PathFinding : MonoBehaviour
         {
             openList = openList.OrderBy(node => node.fCost).ToList();
             var currentNode = openList[0];
-            
+
             openList.Remove(currentNode);
             closedList.Add(currentNode);
 
@@ -30,16 +30,17 @@ public class PathFinding : MonoBehaviour
             {
                 if (closedList.Contains(n))
                     continue;
-                if (openList.Contains(n))
-                {
-                    continue;
-                }
 
                 n.parent = currentNode;
                 n.gCost = currentNode.gCost + CalculateDistance(n.Position, currentNode.Position);
                 n.hCost = CalculateDistance(n.Position, finish.Position);
                 n.fCost = n.gCost + n.hCost;
-                
+
+                if (openList.Contains(n))
+                {
+                    continue;
+                }
+
                 openList.Add(n);
             }
         }
@@ -58,20 +59,19 @@ public class PathFinding : MonoBehaviour
             current = current.parent;
         }
 
-        Debug.Log(path.Count);
         path.Reverse();
         List<Vector3> pointsList = new List<Vector3>();
         foreach (var node in path)
         {
-            pointsList.Add(new Vector3(node.Position.x, node.Position.y, -0.1f));
+            pointsList.Add(node.Position + Vector3.up / 10);
         }
-        
+
         return pointsList;
     }
 
     private List<Node> GetNeighbours(Node input)
     {
-        List<Node> temp = new List<Node>();
+        List<Node> temp = new List<Node>(); 
         for (int x = -1; x <= 1; x++)
         {
             for (int y = -1; y <= 1; y++)
@@ -79,7 +79,7 @@ public class PathFinding : MonoBehaviour
                 if (x == 0 && y == 0)
                     continue;
 
-                var n = gridManager.GetNodeAtPosition(input.Position.x + x, input.Position.y + y);
+                var n = gridManager.GetNodeAtPosition(new Vector3(input.Position.x + x, 0, input.Position.z + y));
                 if (n != null)
                     temp.Add(n);
             }
@@ -87,6 +87,6 @@ public class PathFinding : MonoBehaviour
 
         return temp;
     }
-    
-    float CalculateDistance((int x,int y) start , (int x, int y) end ) => Vector2Int.Distance(new Vector2Int(start.x, start.y), new Vector2Int(end.x, end.y));
+
+    float CalculateDistance(Vector3 start, Vector3 end) => Vector3.Distance(start, end);
 }
