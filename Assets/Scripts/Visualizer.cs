@@ -39,7 +39,7 @@ public class Visualizer : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
         {
             ClearStartFinish();
-            start = _gridManager.GetNodeAtPosition((int)MathF.Round(hit.transform.position.x), (int)MathF.Round(hit.transform.position.y));
+            start = _gridManager.GetNodeAtPosition((int)MathF.Round(hit.transform.position.x), (int)MathF.Round(hit.transform.position.z));
             start.GetComponent<Renderer>().material = startMaterial;
         }
     }
@@ -63,7 +63,7 @@ public class Visualizer : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
         {
             ClearFinish();
-            finish = _gridManager.GetNodeAtPosition((int)MathF.Round(hit.transform.position.x), (int)MathF.Round(hit.transform.position.y));
+            finish = _gridManager.GetNodeAtPosition((int)MathF.Round(hit.transform.position.x), (int)MathF.Round(hit.transform.position.z));
             finish.GetComponent<Renderer>().material = finishMaterial;
             GenerateAndDisplayPath();
         }

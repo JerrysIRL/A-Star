@@ -23,7 +23,7 @@ public class GridManager : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                var node = Instantiate(nodePrefab, new Vector2(x, y), Quaternion.identity, transform);
+                var node = Instantiate(nodePrefab, new Vector3(x,0, y), Quaternion.identity, transform);
                 node.Position = (x, y);
                 node.name = $"({x},{y})";
                 Nodes.Add(node, (x, y));

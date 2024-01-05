@@ -30,16 +30,16 @@ public class PathFinding : MonoBehaviour
             {
                 if (closedList.Contains(n))
                     continue;
+                if (openList.Contains(n))
+                {
+                    continue;
+                }
 
                 n.parent = currentNode;
                 n.gCost = currentNode.gCost + CalculateDistance(n.Position, currentNode.Position);
                 n.hCost = CalculateDistance(n.Position, finish.Position);
                 n.fCost = n.gCost + n.hCost;
                 
-                if (openList.Contains(n))
-                {
-                    continue;
-                }
                 openList.Add(n);
             }
         }
@@ -50,14 +50,15 @@ public class PathFinding : MonoBehaviour
     private List<Vector3> ConstructPath(Node input)
     {
         List<Node> path = new List<Node>();
+        path.Clear();
         var current = input;
-        while (current != null
-               || path.Count >= gridManager.Nodes.Count * gridManager.Nodes.Count)
+        while (current != null)
         {
             path.Add(current);
             current = current.parent;
         }
 
+        Debug.Log(path.Count);
         path.Reverse();
         List<Vector3> pointsList = new List<Vector3>();
         foreach (var node in path)
