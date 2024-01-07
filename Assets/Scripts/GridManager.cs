@@ -32,6 +32,14 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    public void ResetGrid()
+    {
+        foreach (var node in Nodes)
+        {
+            node.Key.parent = null;
+        }
+    }
+    
     public Node GetNodeAtPosition(Vector3 pos)
     {
         float tolerance = 0.001f;

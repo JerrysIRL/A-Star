@@ -6,19 +6,23 @@ public class PathFinding : MonoBehaviour
 {
     [SerializeField] GridManager gridManager;
 
+    List<Node> _openList = new List<Node>();
+    HashSet<Node> _closedList = new HashSet<Node>();
+
     public List<Vector3> GetPath(Node start, Node finish)
     {
-        var openList = new List<Node>();
-        var closedList = new HashSet<Node>();
-        openList.Add(start);
+        gridManager.ResetGrid();
+        _openList.Clear();
+        _closedList.Clear();
+        _openList.Add(start);
 
-        while (openList.Count > 0)
+        while (_openList.Count > 0)
         {
-            openList = openList.OrderBy(node => node.fCost).ToList();
-            var currentNode = openList[0];
+            _openList = _openList.OrderBy(node => node.fCost).ToList();
+            var currentNode = _openList[0];
 
-            openList.Remove(currentNode);
-            closedList.Add(currentNode);
+            _openList.Remove(currentNode);
+            _closedList.Add(currentNode);
 
             if (currentNode == finish)
             {
@@ -28,7 +32,7 @@ public class PathFinding : MonoBehaviour
             var neighbours = GetNeighbours(currentNode);
             foreach (var n in neighbours)
             {
-                if (closedList.Contains(n))
+                if (_closedList.Contains(n))
                     continue;
 
                 n.parent = currentNode;
@@ -36,12 +40,12 @@ public class PathFinding : MonoBehaviour
                 n.hCost = CalculateDistance(n.Position, finish.Position);
                 n.fCost = n.gCost + n.hCost;
 
-                if (openList.Contains(n))
+                if (_openList.Contains(n))
                 {
                     continue;
                 }
 
-                openList.Add(n);
+                _openList.Add(n);
             }
         }
 
@@ -50,28 +54,21 @@ public class PathFinding : MonoBehaviour
 
     private List<Vector3> ConstructPath(Node input)
     {
-        List<Node> path = new List<Node>();
-        path.Clear();
+        List<Vector3> path = new List<Vector3>();
         var current = input;
-        while (current != null)
+        do
         {
-            path.Add(current);
+            path.Add(current.Position + Vector3.up / 10);
             current = current.parent;
-        }
 
-        path.Reverse();
-        List<Vector3> pointsList = new List<Vector3>();
-        foreach (var node in path)
-        {
-            pointsList.Add(node.Position + Vector3.up / 10);
-        }
+        } while (current != null);
 
-        return pointsList;
+        return path;
     }
 
     private List<Node> GetNeighbours(Node input)
     {
-        List<Node> temp = new List<Node>(); 
+        List<Node> temp = new List<Node>();
         for (int x = -1; x <= 1; x++)
         {
             for (int y = -1; y <= 1; y++)
