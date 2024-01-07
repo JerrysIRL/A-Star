@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private Material finishMaterial;
     [SerializeField] GridManager gridManager;
+    [SerializeField] private float speed = 3;
     private Material _defaultNodeMaterial;
     private Camera _cam;
     private LineRenderer _lineRenderer;
@@ -26,22 +27,12 @@ public class Player : MonoBehaviour
         _current = gridManager.GetNodeAtPosition(new Vector3(0, 0, 0));
         _defaultNodeMaterial = _current.GetComponent<Renderer>().material;
     }
-
-    // private void Update()
-    // {
-    //     // if (_isMoving)
-    //     //     return;
-    //     //
-    //     // if (Input.GetKeyDown(KeyCode.Mouse0))
-    //     //     SetFinishNode();
-    // }
-
+    
     private void Update()
     {
         if (_isMoving)
             return;
-
-
+        
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             SetFinishNode();
@@ -61,13 +52,13 @@ public class Player : MonoBehaviour
     private void Move(List<Vector3> path)
     {
         var goal = path[^_index];
-        transform.position = Vector3.MoveTowards(transform.position, goal, 5 * Time.fixedDeltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, goal, speed * Time.fixedDeltaTime);
         if (transform.position == goal)
         {
             if (path.Count == _index)
             {
                 _isMoving = false;
-                _current = _finish; //gridManager.GetNodeAtPosition(transform.position);
+                _current = _finish;
                 _index = 1;
             }
             else
