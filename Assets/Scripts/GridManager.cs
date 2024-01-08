@@ -7,6 +7,7 @@ public class GridManager : MonoBehaviour
 {
     [SerializeField] private float width, height;
     [SerializeField] private Node nodePrefab;
+    [SerializeField][Range(0, 1)] private float walkable;
 
     public Dictionary<Node, Vector3> Nodes { get; } = new Dictionary<Node, Vector3>();
 
@@ -23,6 +24,8 @@ public class GridManager : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
+                var rand = Random.Range(0f, 1f);
+                if(rand >= walkable) {continue;} 
                 var pos = new Vector3(x, 0, y);
                 var node = Instantiate(nodePrefab, pos, Quaternion.identity, transform);
                 node.Position = pos;
@@ -36,7 +39,7 @@ public class GridManager : MonoBehaviour
     {
         foreach (var node in Nodes)
         {
-            node.Key.parent = null;
+            node.Key.Reset();
         }
     }
     

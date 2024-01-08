@@ -39,6 +39,7 @@ public class PathFinding : MonoBehaviour
                 n.gCost = currentNode.gCost + CalculateDistance(n.Position, currentNode.Position);
                 n.hCost = CalculateDistance(n.Position, finish.Position);
                 n.fCost = n.gCost + n.hCost;
+                n.text.text = $"{n.gCost:F1} , {n.hCost:F1}  \n {n.fCost:F1}";
 
                 if (_openList.Contains(n))
                 {

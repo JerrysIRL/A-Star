@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
@@ -21,10 +23,14 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        
         _cam = Camera.main;
         _lineRenderer = GetComponent<LineRenderer>();
+        _lineRenderer.positionCount = 0;
         _pathFinding = GetComponent<PathFinding>();
-        _current = gridManager.GetNodeAtPosition(new Vector3(0, 0, 0));
+        var rand = gridManager.Nodes.Keys.ToArray()[Random.Range(0, gridManager.Nodes.Count)];
+        transform.position = rand.Position;
+        _current = gridManager.GetNodeAtPosition(gridManager.Nodes[rand]);
         _defaultNodeMaterial = _current.GetComponent<Renderer>().material;
     }
     
@@ -36,6 +42,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             SetFinishNode();
+            _path.Clear();
             _path = _pathFinding.GetPath(_current, _finish);
             DisplayPath(_path);
         }
@@ -59,6 +66,7 @@ public class Player : MonoBehaviour
             {
                 _isMoving = false;
                 _current = _finish;
+                _current.Reset();
                 _index = 1;
             }
             else
