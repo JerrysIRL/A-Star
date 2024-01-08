@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using TMPro.Examples;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -23,7 +25,6 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        
         _cam = Camera.main;
         _lineRenderer = GetComponent<LineRenderer>();
         _lineRenderer.positionCount = 0;
@@ -33,33 +34,39 @@ public class Player : MonoBehaviour
         _current = gridManager.GetNodeAtPosition(gridManager.Nodes[rand]);
         _defaultNodeMaterial = _current.GetComponent<Renderer>().material;
     }
-    
+
     private void Update()
     {
-        if (_isMoving)
-            return;
-        
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            SetFinishNode();
-            _path.Clear();
-            _path = _pathFinding.GetPath(_current, _finish);
-            DisplayPath(_path);
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (_isMoving)
+        if (_isMoving && _path != null)
         {
             Move(_path);
         }
-    }
 
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            if (SetFinishNode())
+            {
+                _path = _pathFinding.GetPath(_current, _finish);
+                if (_path != null)
+                {
+                    DisplayPath(_path);
+                }
+                else
+                {
+                    ClearFinish();
+                }
+            }
+            
+        }
+    }
+    
     private void Move(List<Vector3> path)
     {
         var goal = path[^_index];
-        transform.position = Vector3.MoveTowards(transform.position, goal, speed * Time.fixedDeltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, goal, speed * Time.deltaTime);
+        var goalRotation = Quaternion.LookRotation(goal - transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, goalRotation, 5* Time.deltaTime);
+
         if (transform.position == goal)
         {
             if (path.Count == _index)
@@ -82,7 +89,7 @@ public class Player : MonoBehaviour
         _lineRenderer.SetPositions(path.ToArray());
     }
 
-    private void SetFinishNode()
+    private bool SetFinishNode()
     {
         Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
@@ -90,9 +97,11 @@ public class Player : MonoBehaviour
             ClearFinish();
             _finish = gridManager.GetNodeAtPosition(hit.transform.position);
             _finish.GetComponent<Renderer>().material = finishMaterial;
-
             _isMoving = true;
+            return true;
         }
+
+        return false;
     }
 
     private void ClearFinish()
@@ -101,6 +110,7 @@ public class Player : MonoBehaviour
         {
             _finish.GetComponent<Renderer>().material = _defaultNodeMaterial;
             _finish = null;
+            _isMoving = false;
         }
     }
 }

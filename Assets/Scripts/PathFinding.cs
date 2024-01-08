@@ -34,19 +34,19 @@ public class PathFinding : MonoBehaviour
             {
                 if (_closedList.Contains(n))
                     continue;
-
-                n.parent = currentNode;
-                n.gCost = currentNode.gCost + CalculateDistance(n.Position, currentNode.Position);
-                n.hCost = CalculateDistance(n.Position, finish.Position);
-                n.fCost = n.gCost + n.hCost;
-                n.text.text = $"{n.gCost:F1} , {n.hCost:F1}  \n {n.fCost:F1}";
-
-                if (_openList.Contains(n))
+                
+                float tentativeGCost = currentNode.gCost + CalculateDistance(n.Position, currentNode.Position);
+                
+                if (!_openList.Contains(n) || tentativeGCost < n.gCost)
                 {
-                    continue;
+                    n.parent = currentNode;
+                    n.gCost = tentativeGCost;
+                    n.hCost = CalculateDistance(n.Position, finish.Position);
+                    n.fCost = n.gCost + n.hCost;
+                    n.text.text = $"<color=red>{n.gCost:F1}</color>, <color=green>{n.hCost:F1}</color> , \n <color=blue>{n.fCost:F1}</color>";
+                    
+                    _openList.Add(n);
                 }
-
-                _openList.Add(n);
             }
         }
 
@@ -61,7 +61,6 @@ public class PathFinding : MonoBehaviour
         {
             path.Add(current.Position + Vector3.up / 10);
             current = current.parent;
-
         } while (current != null);
 
         return path;
