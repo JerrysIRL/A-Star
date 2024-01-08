@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    [SerializeField] private float width, height;
+    [SerializeField] public float width, height;
     [SerializeField] private Node nodePrefab;
     [SerializeField][Range(0, 1)] private float walkable;
 
