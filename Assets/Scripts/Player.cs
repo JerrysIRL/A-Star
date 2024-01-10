@@ -1,11 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using TMPro.Examples;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
@@ -21,7 +16,6 @@ public class Player : MonoBehaviour
     private bool _isMoving;
     private int _index = 1;
     private List<Vector3> _path = new List<Vector3>();
-
 
     private void Start()
     {
@@ -84,7 +78,6 @@ public class Player : MonoBehaviour
             }
             else 
                 _index++;
-            
         }
     }
 

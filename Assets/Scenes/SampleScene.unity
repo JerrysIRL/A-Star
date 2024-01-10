@@ -247,10 +247,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 105ee0733aa71534d93607a0563342e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 15
-  height: 15
+  width: 30
+  height: 30
   nodePrefab: {fileID: -8905440974092761255, guid: 7803fcc478d2bfa4aa8a3303a723067e, type: 3}
-  walkable: 1
+  walkable: 0.527
   fillerObjects:
   - {fileID: 108507113624723981, guid: eebb56c82efbd8d4bb0eb6bd925a0e9d, type: 3}
   - {fileID: 8783306491908617939, guid: f02116c209ecd9e488fc4d2cd8996133, type: 3}
@@ -391,7 +391,7 @@ MonoBehaviour:
   _gridManager: {fileID: 1289244971}
   padding: 0
   tiltAngle: 65
-  distanceFromCenter: 7
+  distanceFromCenter: 12
 --- !u!1001 &4795955094264396806
 PrefabInstance:
   m_ObjectHideFlags: 0
