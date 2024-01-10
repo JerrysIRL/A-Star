@@ -9,11 +9,11 @@ using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Material finishMaterial;
+    [SerializeField] Material finishMaterial;
+    [SerializeField] Material mudNodeMaterial;
     [SerializeField] GridManager gridManager;
-    [SerializeField] private float speed = 3;
+    [SerializeField] float speed = 3;
     private Material _defaultNodeMaterial;
-    private Camera _cam;
     private LineRenderer _lineRenderer;
     private PathFinding _pathFinding;
     private Node _current;
@@ -25,7 +25,6 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        _cam = Camera.main;
         _lineRenderer = GetComponent<LineRenderer>();
         _lineRenderer.positionCount = 0;
         _pathFinding = GetComponent<PathFinding>();
@@ -40,6 +39,7 @@ public class Player : MonoBehaviour
         if (_isMoving && _path != null)
         {
             Move(_path);
+            return;
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -56,16 +56,22 @@ public class Player : MonoBehaviour
                     ClearFinish();
                 }
             }
-            
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            var node = gridManager.GetNodeAtScreenPosition();
+            node.GetComponent<Renderer>().material = mudNodeMaterial;
+            node.SetAdditionalCost(5);
         }
     }
-    
+
     private void Move(List<Vector3> path)
     {
         var goal = path[^_index];
         transform.position = Vector3.MoveTowards(transform.position, goal, speed * Time.deltaTime);
         var goalRotation = Quaternion.LookRotation(goal - transform.position);
-        transform.rotation = Quaternion.Slerp(transform.rotation, goalRotation, 5* Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, goalRotation, 5 * Time.deltaTime);
 
         if (transform.position == goal)
         {
@@ -76,10 +82,9 @@ public class Player : MonoBehaviour
                 _current.Reset();
                 _index = 1;
             }
-            else
-            {
+            else 
                 _index++;
-            }
+            
         }
     }
 
@@ -88,19 +93,18 @@ public class Player : MonoBehaviour
         _lineRenderer.positionCount = path.Count;
         _lineRenderer.SetPositions(path.ToArray());
     }
-
+    
     private bool SetFinishNode()
-    {
-        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+    { 
+        ClearFinish();
+        _finish = gridManager.GetNodeAtScreenPosition();
+        if(_finish)
         {
-            ClearFinish();
-            _finish = gridManager.GetNodeAtPosition(hit.transform.position);
             _finish.GetComponent<Renderer>().material = finishMaterial;
             _isMoving = true;
             return true;
         }
-
+        
         return false;
     }
 

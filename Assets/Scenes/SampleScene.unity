@@ -228,7 +228,6 @@ GameObject:
   - component: {fileID: 1289244972}
   - component: {fileID: 1289244971}
   - component: {fileID: 1289244973}
-  - component: {fileID: 1289244974}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -251,7 +250,11 @@ MonoBehaviour:
   width: 15
   height: 15
   nodePrefab: {fileID: -8905440974092761255, guid: 7803fcc478d2bfa4aa8a3303a723067e, type: 3}
-  walkable: 0.544
+  walkable: 1
+  fillerObjects:
+  - {fileID: 108507113624723981, guid: eebb56c82efbd8d4bb0eb6bd925a0e9d, type: 3}
+  - {fileID: 8783306491908617939, guid: f02116c209ecd9e488fc4d2cd8996133, type: 3}
+  - {fileID: 6239969156481229051, guid: b71b0f8d2f881c743a85228f3030d1cb, type: 3}
 --- !u!4 &1289244972
 Transform:
   m_ObjectHideFlags: 0
@@ -280,20 +283,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridManager: {fileID: 1289244971}
---- !u!114 &1289244974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1289244970}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 671b3b09208ef7a428323eb292f028c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startMaterial: {fileID: 2100000, guid: 4fab5abaec1293842b7ef01ce262e27c, type: 2}
-  finishMaterial: {fileID: 2100000, guid: 2de6750f68a7d7a499b060c44e6444bf, type: 2}
 --- !u!1 &1870111510
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,6 +412,10 @@ PrefabInstance:
       propertyPath: gridManager
       value: 
       objectReference: {fileID: 1289244971}
+    - target: {fileID: 4825737409857817438, guid: fc8069791bb4bd24bbd68a9539cf63b3, type: 3}
+      propertyPath: mudNodeMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 7797e6d1be668374f8558491019acfb5, type: 2}
     - target: {fileID: 7264292492519463323, guid: fc8069791bb4bd24bbd68a9539cf63b3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

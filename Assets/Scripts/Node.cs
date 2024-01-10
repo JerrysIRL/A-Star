@@ -10,6 +10,7 @@ public class Node : MonoBehaviour
     [HideInInspector] public float gCost;
     [HideInInspector] public float hCost;
     [HideInInspector] public float fCost;
+    public int additionalCost { get; private set; } = 0;
 
     public void Reset()
     {
@@ -24,7 +25,8 @@ public class Node : MonoBehaviour
     {
         Position = position;
     }
-    
+
+    public void SetAdditionalCost(int value) => additionalCost = value;
 }
 
  

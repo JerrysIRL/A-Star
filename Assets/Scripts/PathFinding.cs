@@ -42,7 +42,7 @@ public class PathFinding : MonoBehaviour
                     n.parent = currentNode;
                     n.gCost = tentativeGCost;
                     n.hCost = CalculateDistance(n.Position, finish.Position);
-                    n.fCost = n.gCost + n.hCost;
+                    n.fCost = n.gCost + n.hCost + n.additionalCost;
                     n.text.text = $"<color=red>{n.gCost:F1}</color>, <color=green>{n.hCost:F1}</color> , \n <color=blue>{n.fCost:F1}</color>";
                     
                     _openList.Add(n);
