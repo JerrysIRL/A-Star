@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] Material finishMaterial;
-    [SerializeField] Material mudNodeMaterial;
-    [SerializeField] GridManager gridManager;
-    [SerializeField] float speed = 3;
-    private Material _defaultNodeMaterial;
-    private LineRenderer _lineRenderer;
-    private PathFinding _pathFinding;
+    //[SerializeField] private Material finishMaterial;
+    [SerializeField] private Material mudNodeMaterial;
+    [SerializeField] private GridManager gridManager;
+    [SerializeField] private float speed = 3;
     private Node _current;
+    private Material _defaultNodeMaterial;
     private Node _finish;
-    private bool _isMoving;
     private int _index = 1;
-    private List<Vector3> _path = new List<Vector3>();
+    private bool _isMoving;
+    private LineRenderer _lineRenderer;
+    private List<Vector3> _path = new();
+    private PathFinding _pathFinding;
 
     private void Start()
     {
@@ -37,26 +37,23 @@ public class Player : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
             if (SetFinishNode())
             {
                 _path = _pathFinding.GetPath(_current, _finish);
                 if (_path != null)
-                {
                     DisplayPath(_path);
-                }
                 else
-                {
                     ClearFinish();
-                }
             }
-        }
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             var node = gridManager.GetNodeAtScreenPosition();
-            node.GetComponent<Renderer>().material = mudNodeMaterial;
-            node.SetAdditionalCost(5);
+            if (node)
+            {
+                node.GetComponent<Renderer>().material = mudNodeMaterial;
+                node.SetAdditionalCost(5);
+            }
         }
     }
 
@@ -76,8 +73,10 @@ public class Player : MonoBehaviour
                 _current.Reset();
                 _index = 1;
             }
-            else 
+            else
+            {
                 _index++;
+            }
         }
     }
 
@@ -86,18 +85,17 @@ public class Player : MonoBehaviour
         _lineRenderer.positionCount = path.Count;
         _lineRenderer.SetPositions(path.ToArray());
     }
-    
+
     private bool SetFinishNode()
-    { 
+    {
         ClearFinish();
         _finish = gridManager.GetNodeAtScreenPosition();
-        if(_finish)
+        if (_finish)
         {
-            _finish.GetComponent<Renderer>().material = finishMaterial;
             _isMoving = true;
             return true;
         }
-        
+
         return false;
     }
 
@@ -105,7 +103,6 @@ public class Player : MonoBehaviour
     {
         if (_finish != null)
         {
-            _finish.GetComponent<Renderer>().material = _defaultNodeMaterial;
             _finish = null;
             _isMoving = false;
         }

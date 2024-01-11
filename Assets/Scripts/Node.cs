@@ -1,16 +1,21 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Node : MonoBehaviour
 {
     public Vector3 Position;
     [SerializeField] public TMP_Text text;
-    [HideInInspector]public Node parent;
+    [HideInInspector] public Node parent;
     [HideInInspector] public float gCost;
     [HideInInspector] public float hCost;
     [HideInInspector] public float fCost;
-    public int additionalCost { get; private set; } = 0;
+
+    public Node(Vector3 position)
+    {
+        Position = position;
+    }
+
+    public int AdditionalCost { get; private set; }
 
     public void Reset()
     {
@@ -21,12 +26,8 @@ public class Node : MonoBehaviour
         text.text = null;
     }
 
-    public Node(Vector3 position)
+    public void SetAdditionalCost(int value)
     {
-        Position = position;
+        AdditionalCost = value;
     }
-
-    public void SetAdditionalCost(int value) => additionalCost = value;
 }
-
- 

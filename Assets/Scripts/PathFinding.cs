@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PathFinding : MonoBehaviour
 {
-    [SerializeField] GridManager gridManager;
+    [SerializeField] private GridManager gridManager;
+    private readonly HashSet<Node> _closedList = new();
 
-    List<Node> _openList = new List<Node>();
-    HashSet<Node> _closedList = new HashSet<Node>();
+    private List<Node> _openList = new();
 
     public List<Vector3> GetPath(Node start, Node finish)
     {
@@ -24,27 +24,24 @@ public class PathFinding : MonoBehaviour
             _openList.Remove(currentNode);
             _closedList.Add(currentNode);
 
-            if (currentNode == finish)
-            {
-                return ConstructPath(currentNode);
-            }
+            if (currentNode == finish) return ConstructPath(currentNode);
 
             var neighbours = GetNeighbours(currentNode);
             foreach (var n in neighbours)
             {
                 if (_closedList.Contains(n))
                     continue;
-                
-                float tentativeGCost = currentNode.gCost + CalculateDistance(n.Position, currentNode.Position);
-                
+
+                var tentativeGCost = currentNode.gCost + CalculateDistance(n.Position, currentNode.Position);
+
                 if (!_openList.Contains(n) || tentativeGCost < n.gCost)
                 {
                     n.parent = currentNode;
                     n.gCost = tentativeGCost;
                     n.hCost = CalculateDistance(n.Position, finish.Position);
-                    n.fCost = n.gCost + n.hCost + n.additionalCost;
+                    n.fCost = n.gCost + n.hCost + n.AdditionalCost;
                     n.text.text = $"<color=red>{n.gCost:F1}</color>, <color=green>{n.hCost:F1}</color> , \n <color=blue>{n.fCost:F1}</color>";
-                    
+
                     _openList.Add(n);
                 }
             }
@@ -55,7 +52,7 @@ public class PathFinding : MonoBehaviour
 
     private List<Vector3> ConstructPath(Node input)
     {
-        List<Vector3> path = new List<Vector3>();
+        var path = new List<Vector3>();
         var current = input;
         do
         {
@@ -68,22 +65,23 @@ public class PathFinding : MonoBehaviour
 
     private List<Node> GetNeighbours(Node input)
     {
-        List<Node> temp = new List<Node>();
-        for (int x = -1; x <= 1; x++)
+        var temp = new List<Node>();
+        for (var x = -1; x <= 1; x++)
+        for (var y = -1; y <= 1; y++)
         {
-            for (int y = -1; y <= 1; y++)
-            {
-                if (x == 0 && y == 0)
-                    continue;
+            if (x == 0 && y == 0)
+                continue;
 
-                var n = gridManager.GetNodeAtPosition(new Vector3(input.Position.x + x, 0, input.Position.z + y));
-                if (n != null)
-                    temp.Add(n);
-            }
+            var n = gridManager.GetNodeAtPosition(new Vector3(input.Position.x + x, 0, input.Position.z + y));
+            if (n != null)
+                temp.Add(n);
         }
 
         return temp;
     }
 
-    float CalculateDistance(Vector3 start, Vector3 end) => Vector3.Distance(start, end);
+    private float CalculateDistance(Vector3 start, Vector3 end)
+    {
+        return Vector3.Distance(start, end);
+    }
 }
