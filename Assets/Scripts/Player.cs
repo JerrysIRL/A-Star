@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    //[SerializeField] private Material finishMaterial;
     [SerializeField] private Material mudNodeMaterial;
     [SerializeField] private GridManager gridManager;
     [SerializeField] private float speed = 3;
+
     private Node _current;
-    private Material _defaultNodeMaterial;
     private Node _finish;
     private int _index = 1;
     private bool _isMoving;
@@ -22,10 +21,9 @@ public class Player : MonoBehaviour
         _lineRenderer = GetComponent<LineRenderer>();
         _lineRenderer.positionCount = 0;
         _pathFinding = GetComponent<PathFinding>();
-        var rand = gridManager.Nodes.Keys.ToArray()[Random.Range(0, gridManager.Nodes.Count)];
+        var rand = gridManager.WalkableNodes.Keys.ToArray()[Random.Range(0, gridManager.WalkableNodes.Count)];
         transform.position = rand.Position;
-        _current = gridManager.GetNodeAtPosition(gridManager.Nodes[rand]);
-        _defaultNodeMaterial = _current.GetComponent<Renderer>().material;
+        _current = gridManager.GetNodeAtPosition(gridManager.WalkableNodes[rand]);
     }
 
     private void Update()
@@ -37,6 +35,7 @@ public class Player : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
             if (SetFinishNode())
             {
                 _path = _pathFinding.GetPath(_current, _finish);
@@ -45,6 +44,7 @@ public class Player : MonoBehaviour
                 else
                     ClearFinish();
             }
+        }
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {

@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private GridManager _gridManager;
+    [SerializeField] private GridManager gridManager;
     public float padding = 1.0f;
     public float tiltAngle = 45.0f;
     public float distanceFromCenter = 10.0f;
@@ -41,7 +42,8 @@ public class CameraController : MonoBehaviour
 
     private float CalculateCameraZOffset()
     {
-        return _gridManager.width > _gridManager.height ? _gridManager.width : _gridManager.height;
+        var settings = Settings.Instance;
+        return settings.GetWidth() > settings.GetHeight() ? settings.GetWidth() : settings.GetHeight();
     }
 
     private float CalculateCameraHeight(Bounds bounds, float cameraFOV)
@@ -54,7 +56,7 @@ public class CameraController : MonoBehaviour
     {
         var bounds = new Bounds(Vector3.zero, Vector3.zero);
 
-        foreach (var node in _gridManager.Nodes.Keys) bounds.Encapsulate(node.GetComponent<Renderer>().bounds);
+        foreach (var node in gridManager.WalkableNodes.Keys) bounds.Encapsulate(node.GetComponent<Renderer>().bounds);
 
         return bounds;
     }

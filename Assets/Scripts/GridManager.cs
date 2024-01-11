@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    [SerializeField] public float width, height;
     [SerializeField] private Node nodePrefab;
-    [SerializeField] [Range(0, 1)] private float walkable;
     [SerializeField] private GameObject[] fillerObjects;
 
-
+    private float _width, _height;
     private Camera _cam;
-    public Dictionary<Node, Vector3> Nodes { get; } = new();
+    public Dictionary<Node, Vector3> WalkableNodes { get; } = new();
 
     private void Awake()
     {
@@ -21,22 +19,24 @@ public class GridManager : MonoBehaviour
 
     private void InitializeGrid()
     {
-        for (var x = 0; x < width; x++)
+        _width = Settings.Instance.GetWidth();
+        _height = Settings.Instance.GetHeight();
+        for (var x = 0; x < _width; x++)
         {
-            for (var y = 0; y < height; y++)
+            for (var y = 0; y < _height; y++)
             {
                 var rand = Random.Range(0f, 1f);
                 var pos = new Vector3(x, 0, y);
                 var node = Instantiate(nodePrefab, pos, Quaternion.identity, transform);
                 node.Position = pos;
-                if (rand >= walkable)
+                if (rand >= Settings.Instance.walkableAmount)
                 {
-                    Instantiate(fillerObjects[Random.Range(0, fillerObjects.Length)], node.Position, Quaternion.identity);
+                    Instantiate(fillerObjects[Random.Range(0, fillerObjects.Length)], node.Position, Quaternion.identity, transform);
                     continue;
                 }
 
                 node.name = $"({x},{y})";
-                Nodes.Add(node, pos);
+                WalkableNodes.Add(node, pos);
             }
         }
     }
@@ -52,7 +52,7 @@ public class GridManager : MonoBehaviour
 
     public void ResetGrid()
     {
-        foreach (var node in Nodes)
+        foreach (var node in WalkableNodes)
             node.Key.Reset();
     }
 
@@ -60,6 +60,6 @@ public class GridManager : MonoBehaviour
     {
         var tolerance = 0.001f;
 
-        return Nodes.SingleOrDefault(n => Vector3.Distance(n.Value, pos) < tolerance).Key;
+        return WalkableNodes.SingleOrDefault(n => Vector3.Distance(n.Value, pos) < tolerance).Key;
     }
 }
