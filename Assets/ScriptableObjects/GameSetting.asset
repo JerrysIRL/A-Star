@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3de56f7599fc1d4e945a813613d6420, type: 3}
   m_Name: GameSetting
   m_EditorClassIdentifier: 
-  walkableAmount: 0.706
-  width: 15
+  walkableAmount: 0.5644397
+  width: 25
   height: 15

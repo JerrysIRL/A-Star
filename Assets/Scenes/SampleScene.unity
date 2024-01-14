@@ -2325,8 +2325,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridManager: {fileID: 1289244971}
-  padding: -1
-  tiltAngle: 70
+  padding: 1
+  tiltAngle: 75
   distanceFromCenter: 5
 --- !u!222 &1870111515
 CanvasRenderer:
