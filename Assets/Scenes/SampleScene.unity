@@ -2366,7 +2366,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameSettings: {fileID: 11400000, guid: ee851d8d304e4984d9586ba1e4306114, type: 2}
-  walkableAmount: 0.721
 --- !u!4 &1977795497
 Transform:
   m_ObjectHideFlags: 0
