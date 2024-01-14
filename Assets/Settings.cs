@@ -2,29 +2,26 @@ using UnityEngine;
 
 public class Settings : MonoBehaviour
 {
-    private int _width = 15, _height = 15;
-    public float walkableAmount;
+    public GameSettings gameSettings;
+    
     public static Settings Instance;
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
         {
             Destroy(gameObject);
-            return;
         }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 
-    public void SetWidth(int value) => _width = value;
-    public void SetHeight(int value) => _height = value;
-    public int GetWidth() => _width;
-    public int GetHeight() => _height;
+    public void SetWidth(int value) => gameSettings.width = value;
+    public void SetHeight(int value) => gameSettings.height = value;
+    public int GetWidth() => gameSettings.width;
+    public int GetHeight() => gameSettings.height;
 
-    private void Start()
-    {
-        DontDestroyOnLoad(this);
-    }
 }

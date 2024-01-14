@@ -8,12 +8,12 @@ public class Player : MonoBehaviour
     [SerializeField] private GridManager gridManager;
     [SerializeField] private float speed = 3;
 
+    private List<Vector3> _path = new List<Vector3>();
     private Node _current;
     private Node _finish;
     private int _index = 1;
     private bool _isMoving;
     private LineRenderer _lineRenderer;
-    private List<Vector3> _path = new();
     private PathFinding _pathFinding;
 
     private void Start()

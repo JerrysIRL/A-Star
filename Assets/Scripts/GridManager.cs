@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[DefaultExecutionOrder(1)]
 public class GridManager : MonoBehaviour
 {
     [SerializeField] private Node nodePrefab;
@@ -29,7 +30,7 @@ public class GridManager : MonoBehaviour
                 var pos = new Vector3(x, 0, y);
                 var node = Instantiate(nodePrefab, pos, Quaternion.identity, transform);
                 node.Position = pos;
-                if (rand >= Settings.Instance.walkableAmount)
+                if (rand >= Settings.Instance.gameSettings.walkableAmount)
                 {
                     Instantiate(fillerObjects[Random.Range(0, fillerObjects.Length)], node.Position, Quaternion.identity, transform);
                     continue;

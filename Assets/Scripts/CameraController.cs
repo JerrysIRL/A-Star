@@ -56,7 +56,8 @@ public class CameraController : MonoBehaviour
     {
         var bounds = new Bounds(Vector3.zero, Vector3.zero);
 
-        foreach (var node in gridManager.WalkableNodes.Keys) bounds.Encapsulate(node.GetComponent<Renderer>().bounds);
+        foreach (var node in gridManager.WalkableNodes.Keys)
+            bounds.Encapsulate(node.GetComponent<Renderer>().bounds);
 
         return bounds;
     }
