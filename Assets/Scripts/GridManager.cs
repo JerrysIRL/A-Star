@@ -26,13 +26,13 @@ public class GridManager : MonoBehaviour
         {
             for (var y = 0; y < _height; y++)
             {
-                var rand = Random.Range(0f, 1f);
                 var pos = new Vector3(x, 0, y);
                 var node = Instantiate(nodePrefab, pos, Quaternion.identity, transform);
-                node.Position = pos;
+                node.position = pos;
+                var rand = Random.Range(0f, 1f);
                 if (rand >= Settings.Instance.gameSettings.walkableAmount)
                 {
-                    Instantiate(fillerObjects[Random.Range(0, fillerObjects.Length)], node.Position, Quaternion.identity, transform);
+                    Instantiate(fillerObjects[Random.Range(0, fillerObjects.Length)], node.position, Quaternion.identity, transform);
                     continue;
                 }
 
@@ -60,7 +60,6 @@ public class GridManager : MonoBehaviour
     public Node GetNodeAtPosition(Vector3 pos)
     {
         var tolerance = 0.001f;
-
         return WalkableNodes.SingleOrDefault(n => Vector3.Distance(n.Value, pos) < tolerance).Key;
     }
 }

@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
         _lineRenderer.positionCount = 0;
         _pathFinding = GetComponent<PathFinding>();
         var rand = gridManager.WalkableNodes.Keys.ToArray()[Random.Range(0, gridManager.WalkableNodes.Count)];
-        transform.position = rand.Position;
+        transform.position = rand.position;
         _current = gridManager.GetNodeAtPosition(gridManager.WalkableNodes[rand]);
     }
 
@@ -86,17 +86,17 @@ public class Player : MonoBehaviour
         _lineRenderer.SetPositions(path.ToArray());
     }
 
-    private bool SetFinishNode()
+    private Node SetFinishNode()
     {
         ClearFinish();
         _finish = gridManager.GetNodeAtScreenPosition();
         if (_finish)
         {
             _isMoving = true;
-            return true;
+            return _finish;
         }
 
-        return false;
+        return null;
     }
 
     private void ClearFinish()

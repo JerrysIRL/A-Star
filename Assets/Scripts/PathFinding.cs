@@ -24,7 +24,10 @@ public class PathFinding : MonoBehaviour
             _openList.Remove(currentNode);
             _closedList.Add(currentNode);
 
-            if (currentNode == finish) return ConstructPath(currentNode);
+            if (currentNode == finish)
+            {
+                return ConstructPath(currentNode);
+            }
 
             var neighbours = GetNeighbours(currentNode);
             foreach (var n in neighbours)
@@ -32,13 +35,13 @@ public class PathFinding : MonoBehaviour
                 if (_closedList.Contains(n))
                     continue;
 
-                var tentativeGCost = currentNode.gCost + CalculateDistance(n.Position, currentNode.Position);
+                var tentativeGCost = currentNode.gCost + Vector3.Distance(n.position, currentNode.position);
 
                 if (!_openList.Contains(n) || tentativeGCost < n.gCost)
                 {
                     n.parent = currentNode;
                     n.gCost = tentativeGCost;
-                    n.hCost = CalculateDistance(n.Position, finish.Position);
+                    n.hCost = Vector3.Distance(n.position, finish.position);
                     n.fCost = n.gCost + n.hCost + n.AdditionalCost;
                     n.text.text = $"<color=red>{n.gCost:F1}</color>, <color=green>{n.hCost:F1}</color> \n <color=blue>{n.fCost:F1}</color>";
 
@@ -56,7 +59,7 @@ public class PathFinding : MonoBehaviour
         var current = input;
         do
         {
-            path.Add(current.Position + Vector3.up / 10);
+            path.Add(current.position + Vector3.up / 10);
             current = current.parent;
         } while (current != null);
 
@@ -72,16 +75,11 @@ public class PathFinding : MonoBehaviour
             if (x == 0 && y == 0)
                 continue;
 
-            var n = gridManager.GetNodeAtPosition(new Vector3(input.Position.x + x, 0, input.Position.z + y));
+            var n = gridManager.GetNodeAtPosition(new Vector3(input.position.x + x, 0, input.position.z + y));
             if (n != null)
                 temp.Add(n);
         }
 
         return temp;
-    }
-
-    private float CalculateDistance(Vector3 start, Vector3 end)
-    {
-        return Vector3.Distance(start, end);
     }
 }

@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class Node : MonoBehaviour
 {
-    public Vector3 Position;
     [SerializeField] public TMP_Text text;
     [HideInInspector] public Node parent;
     [HideInInspector] public float gCost;
     [HideInInspector] public float hCost;
     [HideInInspector] public float fCost;
+    public Vector3 position;
 
     public Node(Vector3 position)
     {
-        Position = position;
+        this.position = position;
     }
 
     public int AdditionalCost { get; private set; }
