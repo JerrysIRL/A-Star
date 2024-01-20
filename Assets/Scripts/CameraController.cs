@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class CameraController : MonoBehaviour
 {
@@ -18,7 +17,6 @@ public class CameraController : MonoBehaviour
         var bounds = CalculateGridBounds();
 
         var cameraFOV = CalculateCameraFOV(bounds.size.x, bounds.size.z);
-
         transform.position = CalculateCameraPosition(bounds, cameraFOV);
         transform.rotation = Quaternion.Euler(tiltAngle, 0, 0);
         Camera.main.fieldOfView = cameraFOV;

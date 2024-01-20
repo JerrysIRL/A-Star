@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Material mudNodeMaterial;
     [SerializeField] private GridManager gridManager;
     [SerializeField] private float speed = 3;
+    [SerializeField] private float rotationSpeed = 200;
 
     private List<Vector3> _path = new List<Vector3>();
     private Node _current;
@@ -30,10 +31,11 @@ public class Player : MonoBehaviour
     {
         if (_isMoving && _path != null)
         {
-            Move(_path);
+            var goal = _path[^_index];
+            Move(goal);
+            RotatePlayer(goal);
             return;
         }
-
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             if (SetFinishNode())
@@ -45,7 +47,6 @@ public class Player : MonoBehaviour
                     ClearFinish();
             }
         }
-
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             var node = gridManager.GetNodeAtScreenPosition();
@@ -57,26 +58,38 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Move(List<Vector3> path)
+    private void Move(Vector3 goal)
     {
-        var goal = path[^_index];
         transform.position = Vector3.MoveTowards(transform.position, goal, speed * Time.deltaTime);
-        var goalRotation = Quaternion.LookRotation(goal - transform.position);
-        transform.rotation = Quaternion.Slerp(transform.rotation, goalRotation, 5 * Time.deltaTime);
 
-        if (transform.position == goal)
+        if (Vector3.Distance(transform.position, goal) < 0.001f)
         {
-            if (path.Count == _index)
-            {
-                _isMoving = false;
-                _current = _finish;
-                _current.Reset();
-                _index = 1;
-            }
-            else
-            {
-                _index++;
-            }
+            UpdatePathIndex();
+        }
+    }
+
+    private void UpdatePathIndex()
+    {
+        if (_path.Count == _index)
+        {
+            _isMoving = false;
+            _current = _finish;
+            _current.Reset();
+            _index = 1;
+        }
+        else
+        {
+            _index++;
+        }
+    }
+
+    private void RotatePlayer(Vector3 goal)
+    {
+        var direction = goal - transform.position;
+        if (direction != Vector3.zero)
+        {
+            var goalRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, goalRotation, rotationSpeed * Time.deltaTime);
         }
     }
 

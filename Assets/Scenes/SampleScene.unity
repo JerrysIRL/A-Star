@@ -748,10 +748,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 2560, y: 1440}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1216,10 +1216,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 2560, y: 1440}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -2722,30 +2722,6 @@ PrefabInstance:
       propertyPath: gridManager
       value: 
       objectReference: {fileID: 1289244971}
-    - target: {fileID: 4825737409857817438, guid: fc8069791bb4bd24bbd68a9539cf63b3, type: 3}
-      propertyPath: mudNodeMaterial
-      value: 
-      objectReference: {fileID: 2100000, guid: 7797e6d1be668374f8558491019acfb5, type: 2}
-    - target: {fileID: 5933608238450777478, guid: fc8069791bb4bd24bbd68a9539cf63b3, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 2de6750f68a7d7a499b060c44e6444bf, type: 2}
-    - target: {fileID: 6623988069206189094, guid: fc8069791bb4bd24bbd68a9539cf63b3, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.25381196
-      objectReference: {fileID: 0}
-    - target: {fileID: 6623988069206189094, guid: fc8069791bb4bd24bbd68a9539cf63b3, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.1713584
-      objectReference: {fileID: 0}
-    - target: {fileID: 6623988069206189094, guid: fc8069791bb4bd24bbd68a9539cf63b3, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.033
-      objectReference: {fileID: 0}
-    - target: {fileID: 6623988069206189094, guid: fc8069791bb4bd24bbd68a9539cf63b3, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.554
-      objectReference: {fileID: 0}
     - target: {fileID: 7264292492519463323, guid: fc8069791bb4bd24bbd68a9539cf63b3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

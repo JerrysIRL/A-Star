@@ -57,7 +57,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 77b7c9ec77eff3c4cabddb8812b77ef7, type: 2}
+  - {fileID: 2100000, guid: 2de6750f68a7d7a499b060c44e6444bf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -152,9 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d81527dbbe1d07a4492590210e0795d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mudNodeMaterial: {fileID: 0}
+  mudNodeMaterial: {fileID: 2100000, guid: 7797e6d1be668374f8558491019acfb5, type: 2}
   gridManager: {fileID: 0}
   speed: 3
+  rotationSpeed: 200
 --- !u!114 &3197836946024012645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,8 +197,8 @@ Transform:
   m_GameObject: {fileID: 7538327963099502341}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 1.451, z: 0.387}
-  m_LocalScale: {x: 0.22155374, y: 0.15468352, z: 0.5097216}
+  m_LocalPosition: {x: 0.033, y: 1.554, z: 0.387}
+  m_LocalScale: {x: 0.25381196, y: 0.1713584, z: 0.5097216}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7264292492519463323}
